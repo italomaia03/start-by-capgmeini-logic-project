@@ -21,8 +21,9 @@ Offer a solution for managing one or many projects and its respective tasks.
 > - Task
 >   - description;
 >   - name;
->   - observations;
+>   - remarks;
 >   - deadline;
+>   - is_completed;
 >   - creation date;
 >   - last update;
 

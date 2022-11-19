@@ -1,20 +1,26 @@
 package todoApp.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Project {
     private int id;
     private String name;
     private String description;
-    private Date creationDate;
-    private Date updateDate;
+    private LocalDate creationDate;
+    private LocalDate updateDate;
 
-    public Project(int id, String name, String description, Date creationDate, Date updateDate) {
+    public Project(int id, String name, String description, LocalDate creationDate, LocalDate updateDate) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.creationDate = creationDate;
         this.updateDate = updateDate;
+    }
+
+    public Project() {
+        this.creationDate = LocalDate.now();
+        this.updateDate = LocalDate.now();
     }
 
     public int getId() {
@@ -41,19 +47,19 @@ public class Project {
         this.description = description;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
-    public Date getUpdateDate() {
+    public LocalDate getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(LocalDate updateDate) {
         this.updateDate = updateDate;
     }
 

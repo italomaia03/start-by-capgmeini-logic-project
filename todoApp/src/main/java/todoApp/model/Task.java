@@ -1,6 +1,6 @@
 package todoApp.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Task {
 
@@ -9,25 +9,23 @@ public class Task {
     private String name;
     private String description;
     private String remarks;
-    private boolean isCompleted;
-    private Date deadline;
-    private Date creationDate;
-    private Date updateDate;
+    private int isCompleted;
+    private LocalDate deadline;
+    private LocalDate creationDate;
+    private LocalDate updateDate;
 
-    public Task(int id, int idProject, String name, String description, String remarks, boolean isCompleted, Date deadline, Date creationDate, Date updateDate) {
-        this.id = id;
+    public Task(int idProject, String name, int isCompleted, LocalDate deadline) {
         this.idProject = idProject;
         this.name = name;
-        this.description = description;
-        this.remarks = remarks;
         this.isCompleted = isCompleted;
         this.deadline = deadline;
-        this.creationDate = creationDate;
-        this.updateDate = updateDate;
+        this.creationDate = LocalDate.now();
+        this.updateDate = LocalDate.now();
     }
 
     public Task(){
-        this.creationDate = new Date();
+        this.creationDate = LocalDate.now();
+        this.updateDate = LocalDate.now();
     }
 
     public int getId() {
@@ -70,35 +68,35 @@ public class Task {
         this.remarks = remarks;
     }
 
-    public boolean isCompleted() {
+    public int isCompleted() {
         return isCompleted;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setCompleted(int completed) {
         isCompleted = completed;
     }
 
-    public Date getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
-    public Date getUpdateDate() {
+    public LocalDate getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(LocalDate updateDate) {
         this.updateDate = updateDate;
     }
 

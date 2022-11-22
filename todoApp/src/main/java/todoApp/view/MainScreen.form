@@ -247,6 +247,9 @@
               <Image iconType="3" name="/add.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="projectsAddMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -303,6 +306,9 @@
               <Image iconType="3" name="/add.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tasksAddMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

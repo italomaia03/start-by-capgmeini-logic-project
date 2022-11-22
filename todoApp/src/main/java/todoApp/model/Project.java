@@ -65,12 +65,6 @@ public class Project {
 
     @Override
     public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", creationDate=" + creationDate +
-                ", updateDate=" + updateDate +
-                '}';
+        return this.name;
     }
 }

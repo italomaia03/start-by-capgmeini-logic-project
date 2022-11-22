@@ -6,6 +6,13 @@ package todoApp.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import todoApp.controller.ProjectController;
+import todoApp.controller.TaskController;
+import todoApp.model.Project;
 
 /**
  *
@@ -13,12 +20,17 @@ import java.awt.Font;
  */
 public class MainScreen extends javax.swing.JFrame {
 
+    ProjectController projectController;
+    TaskController taskController;
+    DefaultListModel projectModel;
     /**
      * Creates new form MainScreen
      */
     public MainScreen() {
         initComponents();
         decorateTasksTable();
+        initDataController();
+        initComponentsModel();
     }
 
     /**
@@ -88,7 +100,6 @@ public class MainScreen extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 153, 153));
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(0, 0));
         setSize(new java.awt.Dimension(0, 0));
 
         toolBar.setBackground(new java.awt.Color(0, 153, 102));
@@ -131,6 +142,11 @@ public class MainScreen extends javax.swing.JFrame {
         projectsTitle.setText("Projetos");
 
         projectsAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add.png"))); // NOI18N
+        projectsAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                projectsAddMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout projectsPanelLayout = new javax.swing.GroupLayout(projectsPanel);
         projectsPanel.setLayout(projectsPanelLayout);
@@ -161,6 +177,11 @@ public class MainScreen extends javax.swing.JFrame {
         tasksTitle.setText("Tarefas");
 
         tasksAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add.png"))); // NOI18N
+        tasksAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tasksAddMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout tasksPanelLayout = new javax.swing.GroupLayout(tasksPanel);
         tasksPanel.setLayout(tasksPanelLayout);
@@ -297,6 +318,25 @@ public class MainScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void projectsAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_projectsAddMouseClicked
+        // TODO add your handling code here:
+        ProjectCreationDialogScreen projectCreationDialogScreen = new ProjectCreationDialogScreen(this, rootPaneCheckingEnabled);
+        projectCreationDialogScreen.setVisible(true);
+        projectCreationDialogScreen.addWindowListener(new WindowAdapter(){
+            public void windowClosed(WindowEvent e){
+                loadProjects();
+            }
+        });
+        
+    }//GEN-LAST:event_projectsAddMouseClicked
+
+    private void tasksAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tasksAddMouseClicked
+        // TODO add your handling code here:
+        TaskCreationDialogScreen taskCreationScreen = new TaskCreationDialogScreen(this, rootPaneCheckingEnabled);
+//        taskCreationScreen.setProject(null);
+        taskCreationScreen.setVisible(true);
+    }//GEN-LAST:event_tasksAddMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -360,7 +400,23 @@ public class MainScreen extends javax.swing.JFrame {
         this.tasksTable.getTableHeader().setForeground(new Color(255,255,255));
         
         this.tasksTable.setAutoCreateRowSorter(true);
-     
-
+    }
+    
+    public void initDataController(){
+        this.projectController = new ProjectController();
+        this.taskController = new TaskController();
+    }
+    
+    public void initComponentsModel(){
+        projectModel = new DefaultListModel<>();
+        loadProjects();
+    }
+    
+    public void loadProjects(){
+        List<Project> projects = projectController.findAll();
+        projectModel.clear();
+        projects.stream().forEach(project -> projectModel.addElement(project));
+        this.projects.setModel(projectModel);
+        
     }
 }

@@ -32,7 +32,7 @@ public class Main {
         TaskController taskController = new TaskController();
 //        Task task = new Task(1, "Test", 0, LocalDate.of(2022, Month.DECEMBER, 1));
 //        taskController.save(task);
-        Task task = new Task(1, "Test 2", 0, LocalDate.of(2022, Month.DECEMBER, 1));
+        Task task = new Task(1, "Test 2", false, LocalDate.of(2022, Month.DECEMBER, 1));
 
         task.setId(1);
         taskController.update(task);

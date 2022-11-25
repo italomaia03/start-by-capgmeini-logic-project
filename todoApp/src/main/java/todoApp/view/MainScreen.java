@@ -6,13 +6,20 @@ package todoApp.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
-import javax.swing.DefaultListModel;
+import javax.swing.*;
+
 import todoApp.controller.ProjectController;
 import todoApp.controller.TaskController;
 import todoApp.model.Project;
+import todoApp.model.Task;
+import todoApp.util.ButtonColumnRender;
+import todoApp.util.DeadlineColumnRender;
+import todoApp.util.TaskTableModel;
 
 /**
  *
@@ -23,14 +30,16 @@ public class MainScreen extends javax.swing.JFrame {
     ProjectController projectController;
     TaskController taskController;
     DefaultListModel projectModel;
+    TaskTableModel taskModel;
+
     /**
      * Creates new form MainScreen
      */
     public MainScreen() {
         initComponents();
-        decorateTasksTable();
         initDataController();
         initComponentsModel();
+        decorateTasksTable();
     }
 
     /**
@@ -219,6 +228,12 @@ public class MainScreen extends javax.swing.JFrame {
         projects.setFixedCellHeight(48);
         projects.setSelectionBackground(new java.awt.Color(0, 153, 102));
         projectsScrollPanel.setViewportView(projects);
+        projects.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                projectsMouseClicked(e);
+            }
+        });
 
         javax.swing.GroupLayout projectsListLayout = new javax.swing.GroupLayout(projectsList);
         projectsList.setLayout(projectsListLayout);
@@ -238,6 +253,7 @@ public class MainScreen extends javax.swing.JFrame {
         );
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setLayout(new java.awt.BorderLayout());
 
         tasksTable.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
         tasksTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -272,17 +288,14 @@ public class MainScreen extends javax.swing.JFrame {
         tasksTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tasksTable.setShowGrid(false);
         tasksScrollPanel.setViewportView(tasksTable);
+        tasksTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                taskTableMouseClicked(e);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tasksScrollPanel)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tasksScrollPanel)
-        );
+        jPanel5.add(tasksScrollPanel, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -322,25 +335,76 @@ public class MainScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
         ProjectCreationDialogScreen projectCreationDialogScreen = new ProjectCreationDialogScreen(this, rootPaneCheckingEnabled);
         projectCreationDialogScreen.setVisible(true);
-        projectCreationDialogScreen.addWindowListener(new WindowAdapter(){
-            public void windowClosed(WindowEvent e){
+        projectCreationDialogScreen.addWindowListener(new WindowAdapter() {
+            public void windowClosed(WindowEvent e) {
                 loadProjects();
             }
         });
-        
+
     }//GEN-LAST:event_projectsAddMouseClicked
 
     private void tasksAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tasksAddMouseClicked
         // TODO add your handling code here:
         TaskCreationDialogScreen taskCreationScreen = new TaskCreationDialogScreen(this, rootPaneCheckingEnabled);
-//        taskCreationScreen.setProject(null);
+        var projectIndex = projects.getSelectedIndex();
+        Project project = (Project) projectModel.get(projectIndex);
+        taskCreationScreen.setProject(project);
         taskCreationScreen.setVisible(true);
+
+        taskCreationScreen.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                loadTasks(project.getId());
+            }
+        });
     }//GEN-LAST:event_tasksAddMouseClicked
+
+    private void projectsMouseClicked(MouseEvent event) {
+        var projectIndex = projects.getSelectedIndex();
+        Project project = (Project) projectModel.get(projectIndex);
+        loadTasks(project.getId());
+    }
+
+    private void taskTableMouseClicked(MouseEvent event) {
+        var rowIndex = tasksTable.rowAtPoint(event.getPoint());
+        var columnIndex = tasksTable.columnAtPoint(event.getPoint());
+        Task task = taskModel.getTasks().get(rowIndex);
+        var projectIndex = projects.getSelectedIndex();
+        Project project = (Project) projectModel.get(projectIndex);
+
+        if (columnIndex == 3) {
+            taskController.update(task);
+        } else if (columnIndex == 5) {
+            taskController.removeById(task.getId());
+            taskModel.getTasks().remove(task);
+            loadTasks(project.getId());
+        }
+    }
+
+    private void showTasksTable(boolean hasTasks) {
+        if (hasTasks) {
+            if (emptyTaskList.isVisible()) {
+                emptyTaskList.setVisible(false);
+                jPanel5.remove(emptyTaskList);
+            }
+            jPanel5.add(tasksScrollPanel);
+            tasksScrollPanel.setVisible(true);
+            tasksScrollPanel.setSize(jPanel5.getWidth(), jPanel5.getHeight());
+        } else {
+            if (tasksScrollPanel.isVisible()) {
+                tasksScrollPanel.setVisible(false);
+                jPanel5.remove(tasksScrollPanel);
+            }
+            jPanel5.add(emptyTaskList);
+            emptyTaskList.setVisible(true);
+            emptyTaskList.setSize(jPanel5.getWidth(), jPanel5.getHeight());
+        }
+    }
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -353,13 +417,8 @@ public class MainScreen extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException
+                | UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -393,30 +452,48 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JLabel toolBarSubtitle;
     private javax.swing.JLabel toolBarTitle;
     // End of variables declaration//GEN-END:variables
-    
-    public void decorateTasksTable(){
+
+    public void decorateTasksTable() {
         this.tasksTable.getTableHeader().setFont(new Font("DejaVu Sans", Font.BOLD, 14));
-        this.tasksTable.getTableHeader().setBackground(new Color(0,152,102));
-        this.tasksTable.getTableHeader().setForeground(new Color(255,255,255));
-        
-        this.tasksTable.setAutoCreateRowSorter(true);
+        this.tasksTable.getTableHeader().setBackground(new Color(0, 152, 102));
+        this.tasksTable.getTableHeader().setForeground(new Color(255, 255, 255));
+        this.tasksTable.getColumnModel().getColumn(2).setCellRenderer(new DeadlineColumnRender());
+        this.tasksTable.getColumnModel().getColumn(4).setCellRenderer(new ButtonColumnRender("edit"));
+        this.tasksTable.getColumnModel().getColumn(5).setCellRenderer(new ButtonColumnRender("delete"));
+        //this.tasksTable.setAutoCreateRowSorter(true);
+
     }
-    
-    public void initDataController(){
+
+    public void initDataController() {
         this.projectController = new ProjectController();
         this.taskController = new TaskController();
     }
-    
-    public void initComponentsModel(){
+
+    public void initComponentsModel() {
         projectModel = new DefaultListModel<>();
         loadProjects();
+        taskModel = new TaskTableModel();
+        tasksTable.setModel(taskModel);
+//        tasksTable.setAutoCreateRowSorter(true);
+
+        if (!projectModel.isEmpty()) {
+            projects.setSelectedIndex(0);
+            Project project = (Project) projectModel.get(0);
+            loadTasks(project.getId());
+        }
     }
-    
-    public void loadProjects(){
+
+    public void loadTasks(int idProject) {
+        List<Task> tasks = taskController.findAll(idProject);
+        taskModel.setTasks(tasks);
+        showTasksTable(!tasks.isEmpty());
+    }
+
+    public void loadProjects() {
         List<Project> projects = projectController.findAll();
         projectModel.clear();
-        projects.stream().forEach(project -> projectModel.addElement(project));
+        projects.forEach(projectModel::addElement);
         this.projects.setModel(projectModel);
-        
+
     }
 }

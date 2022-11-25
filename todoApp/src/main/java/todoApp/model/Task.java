@@ -9,12 +9,12 @@ public class Task {
     private String name;
     private String description;
     private String remarks;
-    private int isCompleted;
+    private boolean isCompleted;
     private LocalDate deadline;
     private LocalDate creationDate;
     private LocalDate updateDate;
 
-    public Task(int idProject, String name, int isCompleted, LocalDate deadline) {
+    public Task(int idProject, String name, boolean isCompleted, LocalDate deadline) {
         this.idProject = idProject;
         this.name = name;
         this.isCompleted = isCompleted;
@@ -68,11 +68,11 @@ public class Task {
         this.remarks = remarks;
     }
 
-    public int isCompleted() {
+    public boolean isCompleted() {
         return isCompleted;
     }
 
-    public void setCompleted(int completed) {
+    public void setIsCompleted(boolean completed) {
         isCompleted = completed;
     }
 

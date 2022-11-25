@@ -73,7 +73,7 @@ public class TaskCreationDialogScreen extends javax.swing.JDialog {
 
         titleBar.setBackground(new java.awt.Color(0, 152, 102));
 
-        title.setFont(new java.awt.Font("DejaVu Sans", Font.BOLD, 24)); // NOI18N
+        title.setFont(new java.awt.Font("DejaVu Sans", 1, 24)); // NOI18N
         title.setForeground(java.awt.Color.white);
         title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         title.setText("Task Creation");
@@ -97,35 +97,35 @@ public class TaskCreationDialogScreen extends javax.swing.JDialog {
 
         taskAttributes.setBackground(new java.awt.Color(255, 255, 255));
 
-        taskName.setFont(new java.awt.Font("DejaVu Sans", Font.PLAIN, 14)); // NOI18N
+        taskName.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
         taskName.setText("Name");
 
-        nameField.setFont(new java.awt.Font("DejaVu Sans", Font.PLAIN, 14)); // NOI18N
+        nameField.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
         nameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nameFieldActionPerformed(evt);
             }
         });
 
-        taskDescription.setFont(new java.awt.Font("DejaVu Sans", Font.PLAIN, 14)); // NOI18N
+        taskDescription.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
         taskDescription.setText("Description");
 
         descriptionField.setColumns(20);
-        descriptionField.setFont(new java.awt.Font("DejaVu Sans", Font.PLAIN, 14)); // NOI18N
+        descriptionField.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
         descriptionField.setRows(5);
         taskDescriptionScrollPane.setViewportView(descriptionField);
 
-        taskRemarks.setFont(new java.awt.Font("DejaVu Sans", Font.PLAIN, 14)); // NOI18N
+        taskRemarks.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
         taskRemarks.setText("Remarks");
 
         remarksField.setColumns(20);
-        remarksField.setFont(new java.awt.Font("DejaVu Sans", Font.PLAIN, 14)); // NOI18N
+        remarksField.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
         remarksField.setRows(5);
         taskRemarksScrollPane.setViewportView(remarksField);
 
         savePanel.setBackground(new java.awt.Color(0, 152, 102));
 
-        save.setFont(new java.awt.Font("DejaVu Sans", Font.BOLD, 24)); // NOI18N
+        save.setFont(new java.awt.Font("DejaVu Sans", 1, 24)); // NOI18N
         save.setForeground(java.awt.Color.white);
         save.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/check.png"))); // NOI18N
@@ -155,7 +155,7 @@ public class TaskCreationDialogScreen extends javax.swing.JDialog {
 
         cancelPanel.setBackground(new java.awt.Color(255, 127, 128));
 
-        cancel.setFont(new java.awt.Font("DejaVu Sans", Font.BOLD, 24)); // NOI18N
+        cancel.setFont(new java.awt.Font("DejaVu Sans", 1, 24)); // NOI18N
         cancel.setForeground(java.awt.Color.white);
         cancel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/delete (1).png"))); // NOI18N
@@ -183,10 +183,11 @@ public class TaskCreationDialogScreen extends javax.swing.JDialog {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        taskDeadline.setFont(new java.awt.Font("DejaVu Sans", Font.PLAIN, 14)); // NOI18N
+        taskDeadline.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
         taskDeadline.setText("Deadline");
 
         deadLineFormattedField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("YYYY'/'MM'/'dd"))));
+        deadLineFormattedField.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
         deadLineFormattedField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deadLineFormattedFieldActionPerformed(evt);
@@ -224,14 +225,14 @@ public class TaskCreationDialogScreen extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(taskDescriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(taskRemarks)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(taskRemarksScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(taskDeadline)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(deadLineFormattedField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
-                .addComponent(taskRemarks)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(taskRemarksScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(savePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cancelPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -269,14 +270,13 @@ public class TaskCreationDialogScreen extends javax.swing.JDialog {
         // TODO add your handling code here:
         try {
             Task task = new Task();
-//            task.setIdProject(project.getId());
-            task.setIdProject(2);
+            task.setIdProject(project.getId());
             task.setName(this.nameField.getText());
             task.setDescription(this.descriptionField.getText());
             task.setRemarks(this.remarksField.getText());
-            task.setCompleted(0);
+            task.setIsCompleted(false);
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/d");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             task.setDeadline(LocalDate.parse(deadLineFormattedField.getText(), formatter));
 
             controller.save(task);

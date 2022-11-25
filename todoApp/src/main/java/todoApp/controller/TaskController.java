@@ -27,7 +27,7 @@ public class TaskController {
             preparedStatement.setString(1, task.getName());
             preparedStatement.setString(2, task.getDescription());
             preparedStatement.setString(3, task.getRemarks());
-            preparedStatement.setInt(4, task.isCompleted());
+            preparedStatement.setBoolean(4, task.isCompleted());
             preparedStatement.setDate(5, Date.valueOf(task.getDeadline()));
             preparedStatement.setDate(6, Date.valueOf (task.getCreationDate()));
             preparedStatement.setDate(7, Date.valueOf (task.getUpdateDate()));
@@ -65,7 +65,7 @@ public class TaskController {
             preparedStatement.setString(1, task.getName());
             preparedStatement.setString(2, task.getDescription());
             preparedStatement.setString(3, task.getRemarks());
-            preparedStatement.setInt(4, task.isCompleted());
+            preparedStatement.setBoolean(4, task.isCompleted());
             preparedStatement.setDate(5, Date.valueOf (task.getDeadline()));
             preparedStatement.setDate(6, Date.valueOf (task.getUpdateDate()));
             preparedStatement.setInt(7, task.getIdProject());
@@ -105,7 +105,7 @@ public class TaskController {
     }
 
     public List<Task> findAll(int idProject){
-        String sql = "SELECT * FROM Tasks WHERE id_project = ?";
+        String sql = "SELECT * FROM Tasks WHERE project_id = ?";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -126,7 +126,7 @@ public class TaskController {
                 task.setName(resultSet.getString("name"));
                 task.setDescription(resultSet.getString("description"));
                 task.setRemarks(resultSet.getString("remarks"));
-                task.setCompleted(resultSet.getInt("is_completed"));
+                task.setIsCompleted(resultSet.getBoolean("is_completed"));
                 task.setDeadline(resultSet.getDate("deadline").toLocalDate());
                 task.setCreationDate(resultSet.getDate("creation_date").toLocalDate());
                 task.setUpdateDate(resultSet.getDate("last_update").toLocalDate());
